@@ -1,0 +1,57 @@
+services:
+  - type: web
+    name: n8n
+    env: node
+    plan: free
+    region: frankfurt  # change this to the region nearest to you
+    buildCommand: "npm install --omit=dev"
+    startCommand: "n8n start"
+    envVars:
+      - key: N8N_BASIC_AUTH_ACTIVE
+        value: "true"
+      - key: N8N_BASIC_AUTH_USER
+        value: "admin"
+      - key: N8N_BASIC_AUTH_PASSWORD
+        value: "strongpassword123"
+      - key: N8N_HOST
+        value: "0.0.0.0"
+      - key: N8N_PORT
+        value: "10000"
+      - key: WEBHOOK_URL
+        value: "https://n8n-example.onrender.com/"
+      - key: N8N_ENCRYPTION_KEY
+        value: "AbcD3f89sd9fSdf93kd+3ldsd89fSdf0fS==" # replace with your generated key
+      - key: N8N_SECURE_COOKIE
+        value: "false"
+      - key: EXECUTIONS_DATA_SAVE_ON_ERROR
+        value: "all"
+      - key: EXECUTIONS_DATA_SAVE_ON_SUCCESS
+        value: "none"
+      - key: DB_TYPE
+        value: "postgresdb"
+      - key: GENERIC_TIMEZONE
+        value: "Africa/Luanda"
+      - key: DB_POSTGRESDB_HOST
+        fromDatabase:
+          name: n8n-db
+          property: host
+      - key: DB_POSTGRESDB_PORT
+        fromDatabase:
+          name: n8n-db
+          property: port
+      - key: DB_POSTGRESDB_DATABASE
+        fromDatabase:
+          name: n8n-db
+          property: database
+      - key: DB_POSTGRESDB_USER
+        fromDatabase:
+          name: n8n-db
+          property: user
+      - key: DB_POSTGRESDB_PASSWORD
+        fromDatabase:
+          name: n8n-db
+          property: password
+
+databases:
+  - name: n8n-db
+    plan: free
